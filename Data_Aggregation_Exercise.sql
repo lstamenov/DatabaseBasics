@@ -102,16 +102,50 @@ GROUP BY `department_id`
 ORDER BY `department_id`;
 
 #14. Problem
-SELECT `department_id`, CASE 
-WHEN `salary` > 30000 AND `employee_id` = 1 THEN AVG(`salary`) + 5000
+SELECT department_id, ROUND(CASE
+WHEN department_id = 1 THEN AVG(`salary`) + 5000
 ELSE AVG(`salary`)
-END AS `avg_salary`
-FROM `employees`
-WHERE `manager_id` != 42 AND
-`salary` > 30000
-GROUP BY `department_id`;
+END, 4) AS `avg_salary`
+FROM employees
+WHERE manager_id != 42 AND `salary` > 30000
+GROUP BY department_id
+ORDER BY department_id;
+
+
 #15. Problem
+SELECT department_id, MAX(salary) AS `max_salary`
+FROM `employees`
+GROUP BY `department_id`
+HAVING `max_salary` NOT BETWEEN 30000 AND 70000
+ORDER BY `department_id`;
+
 #16. Problem
+SELECT COUNT(*) as `` 
+FROM `employees`
+WHERE manager_id IS NULL;
+
 #17. Problem
+SELECT `department_id`, (
+SELECT e1.`salary` FROM `employees` as e1
+WHERE e1.department_id = e.department_id
+ORDER BY `salary` DESC
+LIMIT 2, 1
+) AS `third_highest_salary` FROM employees AS `e`
+GROUP BY e.`department_id`
+ORDER BY e.`department_id`;
+
 #18. Problem
+SELECT e.`first_name`, e.`last_name`, e.`department_id`
+FROM employees AS e
+WHERE e.salary > (
+SELECT AVG(e1.salary) AS `avg_salary`
+FROM `employees` AS e1
+WHERE e1.department_id = e.department_id
+)
+ORDER BY e.`department_id`, e.`employee_id`
+LIMIT 10;	
+
 #19. Problem
+SELECT department_id, SUM(salary) FROM employees
+GROUP BY department_id
+ORDER BY department_id;
