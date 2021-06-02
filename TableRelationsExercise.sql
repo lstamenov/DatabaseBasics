@@ -263,6 +263,58 @@ REFERENCES orders(order_id)
 );
 
 
+#6. Task
+
+CREATE DATABASE `university`;
+
+CREATE TABLE `majors`(
+major_id INT AUTO_INCREMENT
+NOT NULL PRIMARY KEY,
+`name` VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE `students`(
+student_id INT AUTO_INCREMENT
+NOT NULL PRIMARY KEY,
+student_number VARCHAR(12) NOT NULL,
+student_name VARCHAR(50) NOT NULL,
+major_id INT NOT NULL,
+CONSTRAINT `fk_majors_students`
+FOREIGN KEY (`major_id`)
+REFERENCES majors(major_id)
+);
+
+CREATE TABLE `payments`(
+payment_id INT AUTO_INCREMENT
+NOT NULL PRIMARY KEY,
+payment_date DATE NOT NULL,
+payment_amount DECIMAL(8, 2) NOT NULL,
+student_id INT NOT NULL,
+CONSTRAINT `fk_student_payments`
+FOREIGN KEY (student_id)
+REFERENCES students(student_id)
+);
+
+CREATE TABLE `agenda`(
+student_id INT NOT NULL,
+subject_id INT NOT NULL,
+CONSTRAINT `fk_student_agenda`
+FOREIGN KEY (`student_id`)
+REFERENCES students(student_id)
+);
+
+CREATE TABLE `subjects`(
+subject_id INT NOT NULL
+AUTO_INCREMENT PRIMARY KEY,
+`subject_name` VARCHAR(50) NOT NULL
+);
+
+ALTER TABLE `agenda`
+ADD CONSTRAINT `fk_subject_agenda`
+FOREIGN KEY (subject_id)
+REFERENCES subjects(subject_id);
+
+
 
 
 
