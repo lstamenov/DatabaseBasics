@@ -314,7 +314,8 @@ ADD CONSTRAINT `fk_subject_agenda`
 FOREIGN KEY (subject_id)
 REFERENCES subjects(subject_id);
 
-
+USE soft_uni;
+SELECT * FROM employees;
 
 
 
